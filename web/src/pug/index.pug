@@ -8,13 +8,13 @@ html
       {name: "@loadingio/bootstrap.ext"}
     ])
   body
-    .d-flex.g-2.w-1024.rwd.mx-auto.my-5
-      .bg-light.rounded.flex-grow-1(style="width:30%")
+    .d-flex.g-2.w-100.rwd.mx-auto.h-100.p-5
+      .bg-light.rounded.flex-grow-1.border.border-dark(style="width:30%;overflow:scroll")
         .session-list(ld="sessions")
           .session(ld-each="session")
             .font-weight-bold(ld="title")
             .text-sm(ld="speaker")
-      .bg-light.rounded.flex-grow-1(style="width:70%")
+      .bg-light.rounded.flex-grow-1.border.border-dark(style="width:70%")
         .canvas(ld="canvas",ld-scope="canvas")
           .refline(ld="refline")
           .tracks(ld="tracks")
@@ -35,4 +35,3 @@ html
       {name: "ldcover"}
     ])
     script(type="module"): include:lsc index.ls
-    div(style="padding-top:100em")

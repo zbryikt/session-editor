@@ -203,5 +203,105 @@
         "nationality": "USA"
       }
     ]
+  },
+  {
+    "title": {
+      "zh": "開源解決方案的持續整合",
+      "en": "Continuous Integration in Open Source Solutions"
+    },
+    "description": {
+      "zh": "介紹如何在開源項目中實施持續整合，提高開發效率和質量。",
+      "en": "Introducing how to implement continuous integration in open source projects to enhance development efficiency and quality."
+    },
+    "tags": ["open source", "continuous integration", "development", "efficiency"],
+    "duration": 40,
+    "speaker": [
+      {
+        "name": "楊小明",
+        "name-en": "Xiao-Ming Yang",
+        "nationality": "Taiwan"
+      }
+    ]
+  },
+  {
+    "title": {
+      "zh": "開放源碼的社區參與策略",
+      "en": "Community Engagement Strategies in Open Source"
+    },
+    "description": {
+      "zh": "探索如何吸引和保持開源社區的參與和活躍。",
+      "en": "Exploring how to attract and maintain active participation in open source communities."
+    },
+    "tags": ["open source", "community", "engagement", "strategies"],
+    "duration": 30,
+    "speaker": [
+      {
+        "name": "劉小玲",
+        "name-en": "Xiao-Ling Liu",
+        "nationality": "Taiwan"
+      }
+    ]
+  },
+  {
+    "title": {
+      "zh": "開放源碼在物聯網的應用",
+      "en": "Open Source Applications in IoT"
+    },
+    "description": {
+      "zh": "了解如何利用開放源碼技術在物聯網領域創建創新解決方案。",
+      "en": "Understand how to leverage open source technology to create innovative solutions in the IoT domain."
+    },
+    "tags": ["open source", "IoT", "applications", "innovation"],
+    "duration": 40,
+    "speaker": [
+      {
+        "name": "王小龍",
+        "name-en": "Xiao-Long Wang",
+        "nationality": "Taiwan"
+      },
+      {
+        "name": "John Smith",
+        "name-en": "John Smith",
+        "nationality": "USA"
+      }
+    ]
+  },
+  {
+    "title": {
+      "zh": "開放源碼的資料隱私保護",
+      "en": "Data Privacy Protection in Open Source"
+    },
+    "description": {
+      "zh": "探討在開放源碼環境中如何確保資料隱私和安全。",
+      "en": "Discussing how to ensure data privacy and security in an open source environment."
+    },
+    "tags": ["open source", "data privacy", "protection", "security"],
+    "duration": 60,
+    "speaker": [
+      {
+        "name": "陳小芳",
+        "name-en": "Xiao-Fang Chen",
+        "nationality": "Taiwan"
+      }
+    ]
+  },
+  {
+    "title": {
+      "zh": "開放源碼軟體的設計原則",
+      "en": "Design Principles of Open Source Software"
+    },
+    "description": {
+      "zh": "分享開放源碼軟體開發中的設計原則和最佳實踐。",
+      "en": "Sharing design principles and best practices in open source software development."
+    },
+    "tags": ["open source", "design", "principles", "best practices"],
+    "duration": 40,
+    "speaker": [
+      {
+        "name": "鄭小芬",
+        "name-en": "Xiao-Fen Zheng",
+        "nationality": "Taiwan"
+      }
+    ]
   }
 ]
