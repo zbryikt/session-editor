@@ -1,0 +1,92 @@
+{
+  "_from": "ldiconfont",
+  "_id": "ldiconfont@0.2.5",
+  "_inBundle": false,
+  "_integrity": "sha512-BtbeSHGm64k4KNUAkcAWFlaGLo8yp7WcSRjnviyWy72tnNAzT26CXocbug7T2ACmVgdZhzuQpEFsmiHYz54JBg==",
+  "_location": "/ldiconfont",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "ldiconfont",
+    "name": "ldiconfont",
+    "escapedName": "ldiconfont",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/ldiconfont/-/ldiconfont-0.2.5.tgz",
+  "_shasum": "559dda963f61609bc996f6b12dd3dbcb15f1ba00",
+  "_spec": "ldiconfont",
+  "_where": "/Users/tkirby/workspace/zbryikt/dev/session",
+  "author": {
+    "name": "zbryikt"
+  },
+  "bin": {
+    "ldif": "bin/makefont.js",
+    "ldif-server": "bin/server.js"
+  },
+  "bugs": {
+    "url": "https://github.com/loadingio/ldiconfont/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "iconfont dedicated for loading.io",
+  "devDependencies": {
+    "@loadingio/bootstrap.ext": "^0.0.4",
+    "@loadingio/ldquery": "^3.0.1",
+    "@plotdb/colors": "^0.0.1",
+    "@zbryikt/deploy": "^0.0.1",
+    "@zbryikt/template": "^2.3.37",
+    "bootstrap": "^4.5.3",
+    "bootstrap.native": "^3.0.13",
+    "choosefont.js": "^0.0.1",
+    "fedep": "^1.1.2",
+    "fs-extra": "^8.0.0",
+    "jsdom": "^20.0.0",
+    "ldcover": "^3.0.1",
+    "ldview": "1.0.0",
+    "livescript": "^1.6.0",
+    "progress": "^2.0.3",
+    "stylus": "^0.55.0",
+    "svg2ttf": "^6.0.2",
+    "svgo": "^2.8.0",
+    "ttf2woff2": "^4.0.4",
+    "uglifycss": "^0.0.29",
+    "yargs": "^16.1.0"
+  },
+  "engines": {
+    "node": ">=10.14.1",
+    "npm": ">=6.4.1"
+  },
+  "frontendDependencies": {
+    "root": "web/static/assets/lib",
+    "modules": [
+      "bootstrap",
+      "bootstrap.native",
+      "@loadingio/bootstrap.ext",
+      "@loadingio/ldquery",
+      "ldcover",
+      "ldview",
+      "choosefont.js"
+    ]
+  },
+  "homepage": "https://github.com/loadingio/ldiconfont",
+  "license": "MIT",
+  "name": "ldiconfont",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loadingio/ldiconfont.git"
+  },
+  "scripts": {
+    "deploy": "npx deploy web/static",
+    "fedep": "npx fedep",
+    "start": "npx server -r web -o true"
+  },
+  "style": "ldif.min.css",
+  "version": "0.2.5"
+}

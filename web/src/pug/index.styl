@@ -1,0 +1,87 @@
+.session-list
+  display: flex
+  flex-direction: column
+  gap: .5em
+  padding: 1em
+  .session
+    padding: .5em
+    background: #afb
+    border-radius: .25em
+  .session.used
+    background: #d7d8d9
+
+.canvas
+  width: 100%
+  height: 100%
+  margin: auto
+  border: 1px solid #000
+  display: flex
+  position: relative
+  align-items: stretch
+  flex: 1 0 auto
+  .tracks
+    width: 100%
+    height: 100%
+    background: #edeeef
+    display: flex
+    gap: 1em
+    padding: 1em
+    justify-content: space-between
+    align-items: stretch
+    .track
+      background: #cccdce
+      flex: 1 0 auto
+  .tick-field
+    width: 1em
+    background: #0ff
+  .ticks
+    position: absolute
+    pointer-events: none
+    inset: 0
+  .tick
+    width: 100%
+    height: 0
+    border-top: 1px solid #0ff
+    position: absolute
+    top: 0
+    left: 0
+    pointer-events: all
+    &:before
+      content: " "
+      display: block
+      width: 1em
+      height: 1em
+      background: #0ff
+  .sessions
+    position: absolute
+    pointer-events: none
+    inset: 0
+  .session
+    position: absolute
+    background: #f0f
+    pointer-events: all
+    display: flex
+    padding-right: 1em
+    align-items: center
+    justify-content: center
+    .i-close
+      position: absolute
+      top: .2em
+      right: .4em
+      font-size: .75em
+      cursor: pointer
+    [ld=title]
+      user-select: none
+      padding: 0 .5em
+      display: inline
+      margin: auto
+      overflow: hidden
+      text-overflow: ellipsis
+      white-space: pre
+  .refline
+    position: absolute
+    width: 0
+    height: 0
+    border-top: 1px dashed #000
+    z-index: var(--z-float)
+    pointer-events: none

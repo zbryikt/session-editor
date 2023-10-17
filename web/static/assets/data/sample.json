@@ -1,0 +1,207 @@
+[
+  {
+    "title": {
+      "zh": "開放源碼的未來趨勢",
+      "en": "Future Trends of Open Source"
+    },
+    "description": {
+      "zh": "探討未來開放源碼的發展方向和趨勢，以及如何應對挑戰。",
+      "en": "Discussing the future directions and trends of open source, and how to address challenges."
+    },
+    "tags": ["open source", "trends", "technology", "innovation"],
+    "duration": 40,
+    "speaker": [
+      {
+        "name": "林小明",
+        "name-en": "Xiao-Ming Lin",
+        "nationality": "Taiwan"
+      },
+      {
+        "name": "王大衛",
+        "name-en": "David Wang",
+        "nationality": "Taiwan"
+      }
+    ]
+  },
+  {
+    "title": {
+      "zh": "開源軟體背後的技術",
+      "en": "Technical Backbone of Open Source Software"
+    },
+    "description": {
+      "zh": "深入了解開源軟體背後的技術架構和實現方式。",
+      "en": "A deep dive into the technical architecture and implementation behind open source software."
+    },
+    "tags": ["open source", "technology", "architecture", "implementation"],
+    "duration": 60,
+    "speaker": [
+      {
+        "name": "張小白",
+        "name-en": "Xiao-Bai Zhang",
+        "nationality": "Taiwan"
+      }
+    ]
+  },
+  {
+    "title": {
+      "zh": "開放源碼在資安領域的應用",
+      "en": "Open Source Applications in Cybersecurity"
+    },
+    "description": {
+      "zh": "探索開放源碼技術如何在資安領域中發揮作用，並提高安全性。",
+      "en": "Exploring how open source technology plays a role in the cybersecurity field and enhances security."
+    },
+    "tags": ["open source", "cybersecurity", "security", "applications"],
+    "duration": 30,
+    "speaker": [
+      {
+        "name": "Michael Brown",
+        "name-en": "Michael Brown",
+        "nationality": "USA"
+      },
+      {
+        "name": "陳小花",
+        "name-en": "Xiao-Hua Chen",
+        "nationality": "Taiwan"
+      }
+    ]
+  },
+  {
+    "title": {
+      "zh": "開源的商業價值",
+      "en": "Commercial Value of Open Source"
+    },
+    "description": {
+      "zh": "分析開放源碼如何帶來商業價值，並探討相關策略。",
+      "en": "Analyzing how open source brings commercial value and discussing related strategies."
+    },
+    "tags": ["open source", "business", "value", "strategy"],
+    "duration": 40,
+    "speaker": [
+      {
+        "name": "李小強",
+        "name-en": "Xiao-Qiang Li",
+        "nationality": "Taiwan"
+      }
+    ]
+  },
+  {
+    "title": {
+      "zh": "大型開放源碼專案的管理",
+      "en": "Managing Large Open Source Projects"
+    },
+    "description": {
+      "zh": "分享如何有效地管理和協調大型開放源碼專案，以確保成功。",
+      "en": "Sharing insights on effectively managing and coordinating large open source projects to ensure success."
+    },
+    "tags": ["open source", "management", "projects", "coordination"],
+    "duration": 60,
+    "speaker": [
+      {
+        "name": "Sarah Johnson",
+        "name-en": "Sarah Johnson",
+        "nationality": "UK"
+      }
+    ]
+  },
+  {
+    "title": {
+      "zh": "開放資料的應用與挑戰",
+      "en": "Applications and Challenges of Open Data"
+    },
+    "description": {
+      "zh": "探討開放資料的各種應用場景，以及可能面臨的挑戰。",
+      "en": "Discussing various application scenarios of open data and potential challenges faced."
+    },
+    "tags": ["open data", "applications", "challenges", "innovation"],
+    "duration": 30,
+    "speaker": [
+      {
+        "name": "黃小雨",
+        "name-en": "Xiao-Yu Huang",
+        "nationality": "Taiwan"
+      }
+    ]
+  },
+  {
+    "title": {
+      "zh": "跨平台開源協作的策略",
+      "en": "Strategies for Cross-Platform Open Source Collaboration"
+    },
+    "description": {
+      "zh": "介紹如何在不同的開放源碼平台上進行有效的協作。",
+      "en": "Introducing how to collaborate effectively across different open source platforms."
+    },
+    "tags": ["open source", "collaboration", "cross-platform", "strategy"],
+    "duration": 40,
+    "speaker": [
+      {
+        "name": "Robert Green",
+        "name-en": "Robert Green",
+        "nationality": "USA"
+      }
+    ]
+  },
+  {
+    "title": {
+      "zh": "開放源碼社群建設",
+      "en": "Building Open Source Communities"
+    },
+    "description": {
+      "zh": "分享如何建立和維護一個健康、活躍的開放源碼社群。",
+      "en": "Sharing insights on building and maintaining a healthy, active open source community."
+    },
+    "tags": ["open source", "community", "building", "engagement"],
+    "duration": 30,
+    "speaker": [
+      {
+        "name": "鄭小龍",
+        "name-en": "Xiao-Long Zheng",
+        "nationality": "Taiwan"
+      }
+    ]
+  },
+  {
+    "title": {
+      "zh": "開放源碼的授權與法律",
+      "en": "Licensing and Legal Aspects of Open Source"
+    },
+    "description": {
+      "zh": "深入了解開放源碼的授權方式，以及相關的法律問題和挑戰。",
+      "en": "A deep dive into licensing modes of open source, and related legal issues and challenges."
+    },
+    "tags": ["open source", "licensing", "legal", "challenges"],
+    "duration": 40,
+    "speaker": [
+      {
+        "name": "李小玲",
+        "name-en": "Xiao-Ling Li",
+        "nationality": "Taiwan"
+      }
+    ]
+  },
+  {
+    "title": {
+      "zh": "開放源碼的教育與培訓",
+      "en": "Education and Training in Open Source"
+    },
+    "description": {
+      "zh": "探討如何通過教育和培訓來推動開放源碼的普及和應用。",
+      "en": "Exploring how to promote the proliferation and application of open source through education and training."
+    },
+    "tags": ["open source", "education", "training", "proliferation"],
+    "duration": 60,
+    "speaker": [
+      {
+        "name": "劉小芸",
+        "name-en": "Xiao-Yun Liu",
+        "nationality": "Taiwan"
+      },
+      {
+        "name": "John Doe",
+        "name-en": "John Doe",
+        "nationality": "USA"
+      }
+    ]
+  }
+]

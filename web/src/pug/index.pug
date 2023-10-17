@@ -1,0 +1,38 @@
+doctype html
+html
+  head
+    style(type="text/css"): include:stylus index.styl
+    +css([
+      {name: "bootstrap", path: "dist/css/bootstrap.min.css"},
+      {name: "ldiconfont"},
+      {name: "@loadingio/bootstrap.ext"}
+    ])
+  body
+    .d-flex.g-2.w-1024.rwd.mx-auto.my-5
+      .bg-light.rounded.flex-grow-1(style="width:30%")
+        .session-list(ld="sessions")
+          .session(ld-each="session")
+            .font-weight-bold(ld="title")
+            .text-sm(ld="speaker")
+      .bg-light.rounded.flex-grow-1(style="width:70%")
+        .canvas(ld="canvas",ld-scope="canvas")
+          .refline(ld="refline")
+          .tracks(ld="tracks")
+            .track(ld-each="track")
+          .tick-field(ld="tick-field")
+          .ticks(ld="ticks")
+            .tick(ld-each="tick")
+          .sessions(ld="sessions")
+            .session(ld-each="session")
+              .text-sm(ld="title")
+              i.i-close
+
+    +script([
+      {name: "proxise"},
+      {name: "@loadingio/debounce.js"},
+      {name: "@loadingio/ldquery"},
+      {name: "ldview"},
+      {name: "ldcover"}
+    ])
+    script(type="module"): include:lsc index.ls
+    div(style="padding-top:100em")

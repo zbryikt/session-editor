@@ -1,0 +1,58 @@
+{
+  "_from": "@loadingio/ldquery",
+  "_id": "@loadingio/ldquery@3.0.5",
+  "_inBundle": false,
+  "_integrity": "sha512-wNgT5O4DYlYi4KhjwsDrCA33CT629dxkFRHCST7GohV86NM7TcfW6vWINCX8JX8IIrzB+xZQIkkoIITb9DCqvg==",
+  "_location": "/@loadingio/ldquery",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "@loadingio/ldquery",
+    "name": "@loadingio/ldquery",
+    "escapedName": "@loadingio%2fldquery",
+    "scope": "@loadingio",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@loadingio/ldquery/-/ldquery-3.0.5.tgz",
+  "_shasum": "3c91a365db20b2f35e0301540d2b19d6b159c269",
+  "_spec": "@loadingio/ldquery",
+  "_where": "/Users/tkirby/workspace/zbryikt/dev/session",
+  "author": {
+    "name": "zbryikt"
+  },
+  "browser": "index.min.js",
+  "bugs": {
+    "url": "https://github.com/loadingio/ldquery/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  },
+  "deprecated": false,
+  "description": "lite jQuery-like HTMLElement shorthands",
+  "devDependencies": {
+    "fedep": "^1.1.11",
+    "livescript": "^1.6.0",
+    "uglify-js": "^3.13.1"
+  },
+  "engines": {
+    "node": ">=10.14.1",
+    "npm": ">=6.4.1"
+  },
+  "homepage": "https://github.com/loadingio/ldquery",
+  "license": "MIT",
+  "main": "index.min.js",
+  "name": "@loadingio/ldquery",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loadingio/ldquery.git"
+  },
+  "version": "3.0.5"
+}

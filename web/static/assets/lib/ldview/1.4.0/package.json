@@ -1,0 +1,73 @@
+{
+  "_from": "ldview",
+  "_id": "ldview@1.4.0",
+  "_inBundle": false,
+  "_integrity": "sha512-agJ5I85a70Mj98E8u9xpNcw527uOkfhvT8yFuEJ1256n8hVbU0QVo8HHg43hWyojR/X7d71dFC4WFgz/A/YEzA==",
+  "_location": "/ldview",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "ldview",
+    "name": "ldview",
+    "escapedName": "ldview",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/ldview/-/ldview-1.4.0.tgz",
+  "_shasum": "7ce534fd18dc04cef3fea1b52d6dd3508239141f",
+  "_spec": "ldview",
+  "_where": "/Users/tkirby/workspace/zbryikt/dev/session",
+  "author": {
+    "name": "zbryikt"
+  },
+  "browser": "index.min.js",
+  "bugs": {
+    "url": "https://github.com/loadingio/ldview/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "view template micro framework",
+  "devDependencies": {
+    "@loadingio/bootstrap.ext": "^0.0.9",
+    "@loadingio/ldquery": "^3.0.4",
+    "@loadingio/vscroll": "^0.0.8",
+    "@zbryikt/deploy": "^0.0.1",
+    "@zbryikt/template": "^2.3.41",
+    "bootstrap": "^4.5.2",
+    "fedep": "^1.1.7",
+    "livescript": "^1.6.0",
+    "uglify-js": "^3.13.1"
+  },
+  "engines": {
+    "node": ">=10.14.1",
+    "npm": ">=6.4.1"
+  },
+  "frontendDependencies": {
+    "root": "web/static/assets/lib",
+    "modules": [
+      "bootstrap",
+      "@loadingio/bootstrap.ext",
+      "@loadingio/ldquery",
+      "@loadingio/vscroll"
+    ]
+  },
+  "homepage": "https://github.com/loadingio/ldview",
+  "license": "MIT",
+  "main": "index.min.js",
+  "name": "ldview",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loadingio/ldview.git"
+  },
+  "scripts": {
+    "deploy": "npx deploy web/static",
+    "start": "npx server -r web -o true"
+  },
+  "version": "1.4.0"
+}

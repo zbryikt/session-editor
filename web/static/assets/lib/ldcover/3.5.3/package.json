@@ -1,0 +1,80 @@
+{
+  "_from": "ldcover",
+  "_id": "ldcover@3.5.3",
+  "_inBundle": false,
+  "_integrity": "sha512-SRrnVjs3KSjeCZFJWrnq2YdtvuWaEM0Oi/u126+A+mfh7EYXqINbKaiDLASsdqXqpWaP2GOQHRwpUPW4bM+3lA==",
+  "_location": "/ldcover",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "ldcover",
+    "name": "ldcover",
+    "escapedName": "ldcover",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/ldcover/-/ldcover-3.5.3.tgz",
+  "_shasum": "64fdbc8db80205ff73373139358dc9f40c5ac125",
+  "_spec": "ldcover",
+  "_where": "/Users/tkirby/workspace/zbryikt/dev/session",
+  "author": {
+    "name": "zbryikt"
+  },
+  "browser": "index.min.js",
+  "bugs": {
+    "url": "https://github.com/loadingio/ldcover/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "tiny popup / dialog library",
+  "devDependencies": {
+    "@loadingio/bootstrap.ext": "^0.0.7",
+    "@loadingio/debounce.js": "1.0.1",
+    "@loadingio/ldquery": "^3.0.3",
+    "@zbryikt/template": "^2.3.37",
+    "bootstrap": "^4.5.3",
+    "fedep": "^1.1.7",
+    "ldloader": "^3.0.1",
+    "ldview": "^1.1.1",
+    "livescript": "^1.6.0",
+    "stylus": "^0.55.0",
+    "uglify-js": "^3.13.1",
+    "uglifycss": "^0.0.29",
+    "zmgr": "^2.2.1"
+  },
+  "engines": {
+    "node": ">=10.14.1",
+    "npm": ">=6.4.1"
+  },
+  "frontendDependencies": {
+    "root": "web/static/assets/lib",
+    "modules": [
+      "bootstrap",
+      "@loadingio/bootstrap.ext",
+      "@loadingio/ldquery",
+      "@loadingio/debounce.js",
+      "ldloader",
+      "zmgr",
+      "ldview"
+    ]
+  },
+  "homepage": "https://loading.io/lib/modal/",
+  "license": "MIT",
+  "main": "index.min.js",
+  "name": "ldcover",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loadingio/ldcover.git"
+  },
+  "scripts": {
+    "start": "npx server -r web -o true"
+  },
+  "style": "index.min.css",
+  "version": "3.5.3"
+}
