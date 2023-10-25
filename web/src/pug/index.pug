@@ -10,21 +10,26 @@ html
   body
     .d-flex.g-2.w-100.rwd.mx-auto.h-100.p-5
       .bg-light.rounded.flex-grow-1.border.border-dark(style="width:30%;overflow:scroll")
+        .break-list
+          .break.session(ld="break") Break
         .session-list(ld="sessions")
           .session(ld-each="session")
             .font-weight-bold(ld="title")
             .text-sm(ld="speaker")
       .bg-light.rounded.flex-grow-1.border.border-dark(style="width:70%")
         .canvas(ld="canvas",ld-scope="canvas")
+          .times(ld="times")
+            .time(ld-each="time")
           .refline(ld="refline")
           .tracks(ld="tracks")
             .track(ld-each="track")
           .tick-field(ld="tick-field")
           .ticks(ld="ticks")
-            .tick(ld-each="tick")
-          .sessions(ld="sessions")
-            .session(ld-each="session")
+            .tick(ld-each="tick"): .tick-inner(ld="tick-inner")
+          .entries(ld="entries")
+            .entry(ld-each="entry")
               .text-sm(ld="title")
+              .text-sm(ld="time")
               i.i-close
 
     +script([

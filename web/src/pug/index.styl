@@ -4,12 +4,13 @@ html, body
   padding: 0
   margin: 0
 
-.session-list
+.session-list, .break-list
   display: flex
   flex-direction: column
   gap: .5em
   padding: 1em
   .session
+    user-select: none
     padding: .5em
     background: #afb
     border-radius: .25em
@@ -22,6 +23,7 @@ html, body
   margin: auto
   display: flex
   position: relative
+  padding: 1em
   align-items: stretch
   flex: 1 0 auto
   .tracks
@@ -30,46 +32,52 @@ html, body
     background: #edeeef
     display: flex
     gap: 1em
-    padding: 1em
     justify-content: space-between
     align-items: stretch
     .track
       background: #cccdce
       flex: 1 0 auto
   .tick-field
-    width: 1em
-    background: #0ff
+    width: 1.5em
   .ticks
     position: absolute
     pointer-events: none
     inset: 0
+    margin: 1em 0
   .tick
+    cursor: pointer
     width: 100%
     height: 0
     border-top: 1px solid #0ff
+    padding-right: .25em
     position: absolute
+    font-size: 12px
+    text-align: right
     top: 0
     left: 0
     pointer-events: all
-    &:before
-      content: " "
-      display: block
-      width: 1em
-      height: 1em
+    line-height: 1em
+    .tick-inner
+      user-select: none
+      padding: .1em .3em
       background: #0ff
-  .sessions
+      display: inline-block
+      border-radius: 0 0 .25em .25em
+  .entries
     position: absolute
     pointer-events: none
     inset: 0
-  .session
+  .entry
     position: absolute
     pointer-events: all
+    user-select: none
     display: flex
     padding-right: 1em
     align-items: center
     justify-content: center
     color: #fff
     background: #000
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,1)
     .i-close
       position: absolute
       top: .2em
@@ -85,9 +93,29 @@ html, body
       text-overflow: ellipsis
       white-space: pre
   .refline
+    margin-top: 1em
     position: absolute
     width: 0
     height: 0
-    border-top: 1px dashed #000
+    border-top: 1px dashed #f00
+    border-bottom: 1px dashed #f00
     z-index: var(--z-float)
     pointer-events: none
+  .times
+    border-right: 1px solid #000
+    width: 1em
+    margin-right: .25em
+    position: relative
+    .time
+      border-top: 1px solid #000
+      text-align: right
+      padding-right: .15em
+      font-size: .75em
+      line-height: 1em
+      width: .2em
+      position: absolute
+      right: 0
+    .time.half
+      width: .5em
+    .time.half.full
+      width: 1em
