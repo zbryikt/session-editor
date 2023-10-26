@@ -9,6 +9,11 @@ html, body
   flex-direction: column
   gap: .5em
   padding: 1em
+  .break
+    display: flex
+    align-items: center
+    justify-content: space-between
+    gap: .5em
   .session
     user-select: none
     padding: .5em
@@ -78,11 +83,12 @@ html, body
     color: #fff
     background: #000
     box-shadow: inset 0 0 0 1px rgba(255,255,255,1)
+    overflow: hidden
     .i-close
       position: absolute
       top: .2em
       right: .4em
-      font-size: .75em
+      font-size: .65em
       cursor: pointer
     [ld=title]
       user-select: none

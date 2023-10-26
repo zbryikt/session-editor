@@ -1,18 +1,17 @@
 <-(->it.apply {}) _
 (sessions) <~ ld$.fetch "assets/data/sample.json", {method: \GET}, {type: \json} .then _
 
-@sessions = sessions
-  .map (data) ->
-    id: Math.random!toString(36).substring(2)
-    data: data
-    dur: data.duration
-    track: "1"
-    p: 0
-
 @entries = []
 @ticks = []
 @tracks = [1 to 3].map -> {id: "#it", dur: 8 * 60, start: 8 * 60 - it * 10}
 @refptr = {}
+@sessions = sessions
+  .map (data) ~>
+    id: Math.random!toString(36).substring(2)
+    data: data
+    dur: data.duration
+    track: @tracks.0.id
+    p: @tracks.0.start
 
 snap = ({y, grain, screen}) ->
   grain = grain or 10
@@ -72,13 +71,13 @@ d2h = ({dur, start}) -> time2y({p: dur + start}) - time2y({p: start})
 view = new ldview do
   root: document.body
   action:
-    click: break: ({node, ctx, views}) ~>
+    click: "break-add": ({node, ctx, views}) ~>
       track = @tracks.0
       obj =
         id: Math.random!
         track: track.id
         p: track.start
-        dur: 30
+        dur: (view.get(\break-min).value or 30)
         data: {title: {zh: "休息時間", en: "Break Time"}}
       obj.p >?= @timespan.min <?= @timespan.max
       obj.y = time2y {p: obj.p}

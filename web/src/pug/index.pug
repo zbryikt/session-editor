@@ -11,7 +11,12 @@ html
     .d-flex.g-2.w-100.rwd.mx-auto.h-100.p-5
       .bg-light.rounded.flex-grow-1.border.border-dark(style="width:30%;overflow:scroll")
         .break-list
-          .break.session(ld="break") Break
+          .break.session(ld="break")
+            div Break
+            select.form-control.form-control-sm(ld="break-min")
+              each t in [10,15,20,25,30,35,40,45,50,55,60]
+                option(value=t) #{t}分
+            .btn.btn-dark.text-nowrap.btn-sm(ld="break-add") 加入
         .session-list(ld="sessions")
           .session(ld-each="session")
             .font-weight-bold(ld="title")
