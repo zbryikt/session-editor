@@ -15,7 +15,7 @@
 @refptr = {}
 
 snap = ({y, grain, screen}) ->
-  grain = grain or 1
+  grain = grain or 10
   y = time2y({screen, p: grain * Math.round(y2time({screen, y}) / grain)})
   return y
 
@@ -103,7 +103,7 @@ view = new ldview do
     canvas:
       action:
         mousemove: "@": ({evt, views}) ~>
-          @refptr = x: evt.clientX, y: snap(y: evt.clientY, screen: true)
+          @refptr <<< x: evt.clientX, y: evt.clientY
           views.0.render \tick, \refline
         mouseup: "@": ({evt, views}) ~>
           track = @tracks.filter((t) ~>
@@ -113,7 +113,7 @@ view = new ldview do
           @ticks
             .filter -> it.moving
             .map (t) ~>
-              y = y2local {y: snap y: evt.clientY, screen: true}
+              y = y2local {y: snap(y: evt.clientY, screen: true)}
               p = y2time {y}
               t <<< {y, p}
               t.moving = false
@@ -121,8 +121,16 @@ view = new ldview do
             .filter -> it.moving
             .map (s) ~>
               rbox = views.0.get(\tracks).getBoundingClientRect!
-              y = y2local y: (snap y: evt.clientY, screen: true)
+              y = y2local y: (snap(y: (evt.clientY - @refptr.delta), screen: true))
               p = y2time {y}
+
+              ticks = @ticks.map (t) -> {t, d: Math.min.apply Math, [p - t.p, p + s.dur - t.p].map(-> Math.abs(it))}
+              ticks.sort (a,b) -> a.d - b.d
+              if (tick = ticks.0) and tick.d <= 10 =>
+                tick = tick.t
+                if Math.abs(p - tick.p) < Math.abs(p + s.dur - tick.p) => p = tick.p
+                else p = tick.p - s.dur
+
               p >?= track.start
               p <?= ((track.start + track.dur) - s.dur)
               y = time2y {p}
@@ -130,27 +138,7 @@ view = new ldview do
               s.moving = false
               if track.id => s.track = track.id
 
-              @ticks.sort (a,b) -> a.p - b.p
-
-              #max-y = time2y(p: track.start + track.dur)
-              /*
-              max-y = (track.box.y or 0) + (track.box.height or 0) - d2h({track, s.dur})
-              y = (evt.clientY - rbox.y)
-              ticks = @ticks.map (t) -> {d: Math.min(Math.abs(t.y - y), Math.abs(t.y - y - d2h({track, s.dur}))), t}
-              ticks.sort (a,b) -> a.d - b.d
-              if ticks.0 and ticks.0.d < 20 =>
-                if Math.abs(ticks.0.t.y - y) < Math.abs(ticks.0.t.y - y - d2h({track, s.dur})) => y = ticks.0.t.y
-                else y = ticks.0.t.y - d2h({track, s.dur})
-              y = y >? (track.box.y or 0) <? max-y
-              grain = 10
-              y = evt.clientY
-              y = time2y({p: grain * Math.round(y2time({y}) / grain)})
-              s.y = y
-              s.p = y2time({y})
-              s.moving = false
-              if track.id => s.track = track.id
-              */
-          views.0.render \entry, \tick
+          views.0.render \entry, \tick, \refline
 
         click: "times": ({node, evt, views}) ~> 
           box = node.getBoundingClientRect!
@@ -173,11 +161,14 @@ view = new ldview do
         refline: ({node, views}) ~>
           {x,y} = @refptr
           if @ticks.filter(->it.moving).length =>
+            node.innerText = fmttime p: y2time(y: snap(y: (@refptr.y or 0), screen: true), screen: true)
+            y = snap(y: @refptr.y, screen: true)
             node.style <<<
               display: \block
               left: "#0px"
-              top: "#{y2local y: @refptr.y or 0}px"
+              top: "#{y2local {y}}px"
               width: "100%"
+              height: 0
             return
 
           track = @tracks.filter((t) ->
@@ -195,10 +186,12 @@ view = new ldview do
             time2y({p: move-session.p + move-session.dur}) -
             time2y({p: move-session.p})
           )
+          y = snap(y: (@refptr.y or 0) - @refptr.delta, screen: true)
+          node.innerText = fmttime p: y2time({y, screen: true})
           node.style <<<
             display: \block
             left: "#{(track.box.x or 0) - cbox.x}px"
-            top: "#{(@refptr.y or 0) - tbox.y}px"
+            top: "#{y - tbox.y}px"
             width: "#{track.box.width or 0}px"
             height: "#{height}px"
 
@@ -233,8 +226,9 @@ view = new ldview do
           key: -> it.id
           view:
             action:
-              mousedown: "@": ({ctx, evt}) ->
+              mousedown: "@": ({ctx, evt}) ~>
                 if evt.target.classList.contains \i-close => return
+                @refptr.delta = evt.clientY - time2y(p: ctx.p, screen: true)
                 ctx.moving = true
               click: "@": ({ctx, node, evt, views}) ~>
                 if evt.target.classList.contains \i-close =>
