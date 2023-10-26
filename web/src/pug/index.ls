@@ -77,7 +77,7 @@ view = new ldview do
         id: Math.random!
         track: track.id
         p: track.start
-        dur: (view.get(\break-min).value or 30)
+        dur: (+view.get(\break-min).value or 30)
         data: {title: {zh: "休息時間", en: "Break Time"}}
       obj.p >?= @timespan.min <?= @timespan.max
       obj.y = time2y {p: obj.p}
