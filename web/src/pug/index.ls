@@ -103,9 +103,11 @@ view = new ldview do
     canvas:
       action:
         mousemove: "@": ({evt, views}) ~>
-          @refptr <<< x: evt.clientX, y: evt.clientY
+          @refptr <<< x: evt.clientX, y: evt.clientY, unsnap: !!evt.shiftKey
           views.0.render \tick, \refline
         mouseup: "@": ({evt, views}) ~>
+          unsnap = !!evt.shiftKey
+          grain = if unsnap => 1 else undefined
           track = @tracks.filter((t) ~>
             box = t.{}box
             box.x <= @refptr.x and box.x + box.width >= @refptr.x
@@ -113,23 +115,36 @@ view = new ldview do
           @ticks
             .filter -> it.moving
             .map (t) ~>
-              y = y2local {y: snap(y: evt.clientY, screen: true)}
-              p = y2time {y}
+              y = snap({y: evt.clientY, screen: true, grain})
+              p = y2time {y, screen: true}
               t <<< {y, p}
               t.moving = false
           @entries
             .filter -> it.moving
             .map (s) ~>
               rbox = views.0.get(\tracks).getBoundingClientRect!
-              y = y2local y: (snap(y: (evt.clientY - @refptr.delta), screen: true))
+              y = y2local y: (snap({y: (evt.clientY - @refptr.delta), screen: true, grain}))
               p = y2time {y}
 
-              ticks = @ticks.map (t) -> {t, d: Math.min.apply Math, [p - t.p, p + s.dur - t.p].map(-> Math.abs(it))}
-              ticks.sort (a,b) -> a.d - b.d
-              if (tick = ticks.0) and tick.d <= 10 =>
-                tick = tick.t
-                if Math.abs(p - tick.p) < Math.abs(p + s.dur - tick.p) => p = tick.p
-                else p = tick.p - s.dur
+              if !unsnap =>
+                ticks = @ticks.map (t) -> {t, d: Math.min.apply Math, [p - t.p, p + s.dur - t.p].map(-> Math.abs(it))}
+                ticks.sort (a,b) -> a.d - b.d
+                if (tick = ticks.0) and tick.d <= 10 =>
+                  tick = tick.t
+                  if Math.abs(p - tick.p) < Math.abs(p + s.dur - tick.p) => p = tick.p
+                  else p = tick.p - s.dur
+                ss = @entries
+                  .filter -> it != s
+                  .map (e) ->
+                    e: e
+                    d: Math.min.apply Math, [
+                      p + s.dur - e.p, p - (e.p + e.dur)
+                    ].map(-> Math.abs(it))
+                ss.sort (a,b) -> a.d - b.d
+                if (session = ss.0) and session.d <= 10 =>
+                  e = session.e
+                  if Math.abs(p - (e.p + e.dur)) < Math.abs(p + s.dur - e.p) => p = e.p + e.dur
+                  else p = e.p - s.dur
 
               p >?= track.start
               p <?= ((track.start + track.dur) - s.dur)
@@ -142,8 +157,8 @@ view = new ldview do
 
         click: "times": ({node, evt, views}) ~> 
           box = node.getBoundingClientRect!
-          y = Math.round(evt.clientY - box.y)
-          p = y2time({y})
+          y = snap y: evt.clientY, screen: true
+          p = y2time({y, screen: true})
           id = Math.random!
           @ticks.push {y, p, id}
           views.0.render!
@@ -159,13 +174,14 @@ view = new ldview do
               node.classList.toggle \full, !(ctx.p % 60)
               if !(ctx.p % 60) => node.innerText = ctx.p / 60
         refline: ({node, views}) ~>
-          {x,y} = @refptr
+          {x,y, unsnap} = @refptr
+          grain = if unsnap => 1 else undefined
           if @ticks.filter(->it.moving).length =>
-            node.innerText = fmttime p: y2time(y: snap(y: (@refptr.y or 0), screen: true), screen: true)
-            y = snap(y: @refptr.y, screen: true)
+            y = snap({y: (@refptr.y or 0), screen: true, grain})
+            node.innerText = fmttime p: y2time({y, screen: true})
             node.style <<<
               display: \block
-              left: "#0px"
+              left: "0px"
               top: "#{y2local {y}}px"
               width: "100%"
               height: 0
@@ -186,7 +202,7 @@ view = new ldview do
             time2y({p: move-session.p + move-session.dur}) -
             time2y({p: move-session.p})
           )
-          y = snap(y: (@refptr.y or 0) - @refptr.delta, screen: true)
+          y = snap({y: (@refptr.y or 0) - @refptr.delta, screen: true, grain})
           node.innerText = fmttime p: y2time({y, screen: true})
           node.style <<<
             display: \block
@@ -202,7 +218,7 @@ view = new ldview do
             action:
               mousedown: "@": ({ctx}) -> ctx.moving = true
             text: "tick-inner": ({node, ctx}) ~> fmttime(ctx)
-            handler: "@": ({node, ctx}) -> node.style.top = "#{ctx.y}px"
+            handler: "@": ({node, ctx}) -> node.style.top = "#{y2local y: ctx.y}px"
 
         track:
           list: ~> @tracks
