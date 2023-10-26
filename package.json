@@ -13,6 +13,7 @@
     "@loadingio/bootstrap.ext": "0.0.10",
     "@loadingio/debounce.js": "^1.0.1",
     "@loadingio/ldquery": "^3.0.5",
+    "@zbryikt/deploy": "^0.0.4",
     "@zbryikt/template": "^2.3.45",
     "bootstrap": "^4.6.1",
     "bootstrap.native": "^3.0.14",
