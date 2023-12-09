@@ -58,6 +58,9 @@ fmttime = ({p}) ->
   hr = Math.floor(p / 60)
   "#hr".padStart(2, \0) + ":" + "#mn".padStart(2, \0)
 
+fmtdur = (o) -> return "#{o.dur}m"
+
+
 time2y = ({p, screen}) ~>
   box = ld$.find(view.get(\canvas), "[ld=tracks]", 0).getBoundingClientRect!
   ret = box.height * ((p or 0) - @timespan.min) / (@timespan.max - @timespan.min)
@@ -68,22 +71,105 @@ dur2h = ({dur}) ~> time2y({p: @timespan.min + dur}) - time2y({p: @timespan.min})
 
 d2h = ({dur, start}) -> time2y({p: dur + start}) - time2y({p: start})
 
+toggle-session = ({ctx}) ~>
+  ctx.used = !ctx.used
+  ctx.p >?= @timespan.min <?= @timespan.max
+  ctx.y = time2y {p: ctx.p}
+  if ctx.used and !(ctx in @entries) => @entries.push ctx
+  else if !ctx.used and (ctx in @entries) => @entries.splice(@entries.indexOf(ctx), 1)
+  view.render!
+
+mouseup = ({evt, view}) ~>
+  unsnap = !!evt.shiftKey
+  grain = if unsnap => 1 else undefined
+  track = @tracks.filter((t) ~>
+    box = t.{}box
+    box.x <= @refptr.x and box.x + box.width >= @refptr.x
+  ).0 or {box: {}}
+  @ticks
+    .filter -> it.moving
+    .map (t) ~>
+      y = snap({y: evt.clientY, screen: true, grain})
+      p = y2time {y, screen: true}
+      t <<< {y, p}
+      t.moving = false
+  @entries
+    .filter -> it.moving
+    .map (s) ~>
+      rbox = view.get(\tracks).getBoundingClientRect!
+      y = y2local y: (snap({y: (evt.clientY - @refptr.delta), screen: true, grain}))
+      p = y2time {y}
+      if !unsnap =>
+        ticks = @ticks.map (t) -> {t, d: Math.min.apply Math, [p - t.p, p + s.dur - t.p].map(-> Math.abs(it))}
+        ticks.sort (a,b) -> a.d - b.d
+        if (tick = ticks.0) and tick.d <= 10 =>
+          tick = tick.t
+          if Math.abs(p - tick.p) < Math.abs(p + s.dur - tick.p) => p = tick.p
+          else p = tick.p - s.dur
+        ss = @entries
+          .filter -> it != s
+          .map (e) ->
+            e: e
+            d: Math.min.apply Math, [
+              p + s.dur - e.p, p - (e.p + e.dur)
+            ].map(-> Math.abs(it))
+        ss.sort (a,b) -> a.d - b.d
+        if (session = ss.0) and session.d <= 10 =>
+          e = session.e
+          if Math.abs(p - (e.p + e.dur)) < Math.abs(p + s.dur - e.p) => p = e.p + e.dur
+          else p = e.p - s.dur
+      p >?= track.start
+      p <?= ((track.start + track.dur) - s.dur)
+      y = time2y {p}
+      s <<< {y, p}
+      s.moving = false
+      if track.id => s.track = track.id
+  view.render \entry, \tick, \refline
+
 view = new ldview do
   root: document.body
+  init:
+    ldcv: ({node}) ~> @{}ldcv[node.getAttribute \data-name] = new ldcover root: node
   action:
-    click: "break-add": ({node, ctx, views}) ~>
-      track = @tracks.0
-      obj =
-        id: Math.random!
-        track: track.id
-        p: track.start
-        dur: (+view.get(\break-min).value or 30)
-        data: {title: {zh: "休息時間", en: "Break Time"}}
-      obj.p >?= @timespan.min <?= @timespan.max
-      obj.y = time2y {p: obj.p}
-      @entries.push obj
-      views.0.render!
+    click:
+      "toggle-track-editor": ({node, ctx, views}) ~> @ldcv["track-editor"].toggle!
+      "break-add": ({node, ctx, views}) ~>
+        track = @tracks.0
+        obj =
+          id: Math.random!
+          track: track.id
+          p: track.start
+          dur: (+view.get(\break-min).value or 30)
+          data: {title: {zh: "休息時間", en: "Break Time"}}
+        obj.p >?= @timespan.min <?= @timespan.max
+        obj.y = time2y {p: obj.p}
+        @entries.push obj
+        views.0.render!
   handler:
+    "track-editor":
+      handler:
+        track:
+          list: ~> @tracks
+          key: -> it.id
+          view:
+            action: click: delete: ({ctx}) ->
+              console.log dev-track.indexOf(ctx)
+              dev-track.splice dev-track.indexOf(ctx), 1
+              track-editor-view.render!
+            text:
+              day: ({ctx}) -> return ctx.id
+              dur: ({node, ctx}) ->
+                h = (ctx.dur - ctx.dur % 60) / 60
+                m = ctx.dur % 60
+                return "#h".padStart(2, "0") + ":" + "#m".padStart(2, "0")
+            handler:
+              sel: ({node, ctx}) ->
+                name = node.getAttribute \data-name
+                type = node.getAttribute \data-type
+                time = ctx.start + if name == \start => 0 else ctx.dur
+                v = if type == \hour => (time - time % 60) / 60 else (time % 60)
+                node.value = v
+
     session:
       list: ~> @sessions
       key: -> it.id
@@ -92,67 +178,26 @@ view = new ldview do
         text:
           "title": ({node, ctx}) ~> ctx.data.title.zh
           "speaker": ({node, ctx}) ~> ctx.data.speaker.map(->it.name).join(' / ')
-        action: click: "@": ({node, ctx, views}) ~>
-          ctx.used = !ctx.used
-          ctx.p >?= @timespan.min <?= @timespan.max
-          ctx.y = time2y {p: ctx.p}
-          if ctx.used and !(ctx in @entries) => @entries.push ctx
-          else if !ctx.used and (ctx in @entries) => @entries.splice(@entries.indexOf(ctx), 1)
-          views.1.render!
+        action:
+          dragstart: "@": ({evt, ctx}) ~> evt.dataTransfer.setData \plain/text, ctx.id
+          click: "@": ({ctx, views}) ~> toggle-session {ctx}
     canvas:
       action:
+        dragover: "@": ({evt}) ~> evt.preventDefault!
+        drop: "@": ({evt, views}) ~> 
+          id = evt.dataTransfer.getData(\plain/text)
+          obj = @sessions.filter((o) -> o.id == id).0
+          toggle-session {ctx: obj}
+          @refptr.delta = 0
+          obj.moving = true
+          @refptr <<< x: evt.clientX, y: evt.clientY, unsnap: !!evt.shiftKey
+          views.0.render \tick, \refline
+          mouseup {evt, view: views.0}
+          evt.preventDefault!
         mousemove: "@": ({evt, views}) ~>
           @refptr <<< x: evt.clientX, y: evt.clientY, unsnap: !!evt.shiftKey
           views.0.render \tick, \refline
-        mouseup: "@": ({evt, views}) ~>
-          unsnap = !!evt.shiftKey
-          grain = if unsnap => 1 else undefined
-          track = @tracks.filter((t) ~>
-            box = t.{}box
-            box.x <= @refptr.x and box.x + box.width >= @refptr.x
-          ).0 or {box: {}}
-          @ticks
-            .filter -> it.moving
-            .map (t) ~>
-              y = snap({y: evt.clientY, screen: true, grain})
-              p = y2time {y, screen: true}
-              t <<< {y, p}
-              t.moving = false
-          @entries
-            .filter -> it.moving
-            .map (s) ~>
-              rbox = views.0.get(\tracks).getBoundingClientRect!
-              y = y2local y: (snap({y: (evt.clientY - @refptr.delta), screen: true, grain}))
-              p = y2time {y}
-
-              if !unsnap =>
-                ticks = @ticks.map (t) -> {t, d: Math.min.apply Math, [p - t.p, p + s.dur - t.p].map(-> Math.abs(it))}
-                ticks.sort (a,b) -> a.d - b.d
-                if (tick = ticks.0) and tick.d <= 10 =>
-                  tick = tick.t
-                  if Math.abs(p - tick.p) < Math.abs(p + s.dur - tick.p) => p = tick.p
-                  else p = tick.p - s.dur
-                ss = @entries
-                  .filter -> it != s
-                  .map (e) ->
-                    e: e
-                    d: Math.min.apply Math, [
-                      p + s.dur - e.p, p - (e.p + e.dur)
-                    ].map(-> Math.abs(it))
-                ss.sort (a,b) -> a.d - b.d
-                if (session = ss.0) and session.d <= 10 =>
-                  e = session.e
-                  if Math.abs(p - (e.p + e.dur)) < Math.abs(p + s.dur - e.p) => p = e.p + e.dur
-                  else p = e.p - s.dur
-
-              p >?= track.start
-              p <?= ((track.start + track.dur) - s.dur)
-              y = time2y {p}
-              s <<< {y, p}
-              s.moving = false
-              if track.id => s.track = track.id
-
-          views.0.render \entry, \tick, \refline
+        mouseup: "@": ({evt, views}) ~> mouseup {evt, view: views.0}
 
         click: "times": ({node, evt, views}) ~> 
           box = node.getBoundingClientRect!
@@ -254,6 +299,7 @@ view = new ldview do
             text:
               "title": ({node, ctx}) ~> ctx.data.title.zh
               "time": ({node, ctx}) ~> fmttime ctx
+              "dur": ({node, ctx}) ~> return "(#{fmtdur ctx})"
               "speaker": ({node, ctx}) ~> ctx.data.speaker.map(->it.name).join(' / ')
             handler: "@": ({node, ctx, views}) ~>
               if !(track = @tracks.filter(-> it.id == ctx.track).0) => return
@@ -267,4 +313,3 @@ view = new ldview do
                 left: "#{box.x - cbox.x}px"
                 width: "#{box.width}px"
                 height: "#{height}px"
-

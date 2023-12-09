@@ -1,42 +1,78 @@
 doctype html
 html
+  include @/ldview/index.pug
   - libLoader.root("./assets/lib");
   head
     style(type="text/css"): include:stylus index.styl
     +css([
       {name: "bootstrap", path: "dist/css/bootstrap.min.css"},
       {name: "ldiconfont"},
+      {name: "ldcover"},
       {name: "@loadingio/bootstrap.ext"}
     ])
   body
-    .d-flex.g-2.w-100.rwd.mx-auto.h-100.p-5
-      .bg-light.rounded.flex-grow-1.border.border-dark(style="width:30%;overflow:scroll")
-        .break-list
-          .break.session(ld="break")
-            div Break
-            select.form-control.form-control-sm(ld="break-min")
-              each t in [10,15,20,25,30,35,40,45,50,55,60]
-                option(value=t) #{t}分
-            .btn.btn-dark.text-nowrap.btn-sm(ld="break-add") 加入
-        .session-list(ld="sessions")
-          .session(ld-each="session")
-            .font-weight-bold(ld="title")
-            .text-sm(ld="speaker")
-      .bg-light.rounded.flex-grow-1.border.border-dark(style="width:70%")
-        .canvas(ld="canvas",ld-scope="canvas")
-          .times(ld="times")
-            .time(ld-each="time")
-          .refline(ld="refline")
-          .tracks(ld="tracks")
-            .track(ld-each="track")
-          .tick-field(ld="tick-field")
-          .ticks(ld="ticks")
-            .tick(ld-each="tick"): .tick-inner(ld="tick-inner")
-          .entries(ld="entries")
-            .entry(ld-each="entry")
-              .text-sm(ld="title")
-              .text-sm(ld="time")
-              i.i-close
+    mixin time-selector(name)
+      .input-group
+        select.form-control(ld="sel", data-name=name, data-type="hour")
+          each i in [0,1,2,3]
+            each j in [0,1,2,3,4,5]
+              option= i * 6 + j
+        select.form-control(ld="sel", data-name=name, data-type="min")
+          each i in [0,1,2,3,4,5]
+            each j in [0,1,2,3,4,5,6,7,8,9]
+              option= i * 10 + j
+    +scope("track-editor").ldcv.autogap.scrolling(ld="track-editor ldcv",data-name="track-editor")
+      .base(style="width:700px"): .inner
+        div
+          .d-flex.g-3.pb-4.px-4.align-items-center.justify-content-between(ld-each="track")
+            .d-flex.g-3.align-items-center
+              div #[div &nbsp;]#[div Day #[span(ld="day")]]
+              div #[div Start Time]#[+time-selector("start")]
+              .mx-2 #[div &nbsp;]#[div to]
+              div #[div End Time]#[+time-selector("end")]
+              div #[div Duration]#[.form-control.px-4(ld="dur")]
+            .flec-grow-1
+            div(ld="delete")
+              div &nbsp;
+              .btn.btn-outline-danger: i.i-close
+        .d-flex.justify-content-between.px-4
+          .btn.btn-outline-secondary #[span.mr-2(t) Add] #[i.i-plus]
+          .btn.btn-outline-secondary(data-ldcv-set="",t) Close
+    .d-flex.g-2.flex-column.p-4.h-100.h-100
+      .rounded.shadow-sm.border.p-2
+        .btn.btn-outline-secondary(ld="toggle-track-editor",t) Edit Tracks
+
+      .d-flex.g-2.rwd.mx-auto.w-100.flex-grow-1(style="overflow:hidden")
+        .bg-light.rounded.flex-grow-1.border.h-100(style="width:30%;overflow:scroll")
+          .break-list
+            .break.session(ld="break")
+              div Break
+              select.form-control.form-control-sm(ld="break-min")
+                each t in [10,15,20,25,30,35,40,45,50,55,60]
+                  option(value=t) #{t}分
+              .btn.btn-dark.text-nowrap.btn-sm(ld="break-add") 加入
+          .session-list(ld="sessions")
+            .session(ld-each="session",draggable="true")
+              .font-weight-bold(ld="title")
+              .text-sm(ld="speaker")
+        .bg-light.rounded.flex-grow-1.border.h-100(style="width:70%")
+          .canvas(ld="canvas",ld-scope="canvas")
+            .times(ld="times")
+              .time(ld-each="time")
+            .refline(ld="refline")
+            .tracks(ld="tracks")
+              .track(ld-each="track")
+            .tick-field(ld="tick-field")
+            .ticks(ld="ticks")
+              .tick(ld-each="tick"): .tick-inner(ld="tick-inner")
+            .entries(ld="entries")
+              .entry(ld-each="entry"): div
+                .text-sm(ld="title")
+                .d-flex.align-items-center.justify-content-center.g-2
+                  .text-sm(ld="dur")
+                  .text-sm(ld="speaker")
+                  .text-sm(ld="time")
+                i.i-close
 
     +script([
       {name: "proxise"},
